@@ -4,7 +4,7 @@
     "name": "Dynamic Webs distributed span-sheet asset generator",
     "version": "1.3.0",
     "masterSeed": "dynamic-webs:web-span-assets:v2",
-    "generatedAt": "2026-10-20T06:31:13.446636+00:00",
+    "generatedAt": "2026-10-22T10:07:57.076631+00:00",
     "deterministicContent": true,
     "authoredFibreStandard": "span-visibility-v1",
     "topology": "distributed-span-sheet"
