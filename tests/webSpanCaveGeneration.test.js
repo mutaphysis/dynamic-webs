@@ -54,6 +54,24 @@ test("moderately skewed cave walls can generate a four-anchor span asset", () =>
   assert.notEqual(target.secondWallStart.x, target.secondWallEnd.x);
 });
 
+test("crossing walls skip the span instead of failing generation with a degenerate quad", () => {
+  const webs = new WallSpanWebGenerator().generate({
+    sceneId: "crossing-scene",
+    level: LEVEL,
+    generationSeed: "dynamic-webs:test:crossing-span",
+    gridSize: 100,
+    configuration: DEFAULT_WEB_GENERATION_CONFIGURATION.spanWebs,
+    random: () => 0.5,
+    regionRestriction: null,
+    wallSegments: [
+      { wallId: "steep-wall", a: { x: 169, y: 137 }, b: { x: -22, y: 556 } },
+      { wallId: "flat-wall", a: { x: 197, y: 188 }, b: { x: -62, y: 185 } }
+    ]
+  });
+
+  assert.deepEqual(webs, []);
+});
+
 
 import {
   WebGenerationService

@@ -23,7 +23,8 @@ import {
 } from "../../spatial/webRegionRestrictionIndex.js";
 
 import {
-  createWebSpanAssetPresentation
+  createWebSpanAssetPresentation,
+  isUsableWebSpanQuad
 } from "../../data/webSpanAssetCatalog.js";
 
 /**
@@ -1042,6 +1043,23 @@ function createSpanWeb({
       halfLength:
         targetHalfLength
     });
+
+  // Converging or crossing walls can fold the ordered edges into a bowtie or
+  // a sliver; such a pair cannot carry a span asset, so skip the candidate.
+  if (
+    !isUsableWebSpanQuad({
+      firstWallStart:
+        sourceAssetEdge.start,
+      firstWallEnd:
+        sourceAssetEdge.end,
+      secondWallStart:
+        targetAssetEdge.start,
+      secondWallEnd:
+        targetAssetEdge.end
+    })
+  ) {
+    return null;
+  }
 
   const spanAsset =
     createWebSpanAssetPresentation({

@@ -262,9 +262,15 @@ function createAssetRecord(
   });
 }
 
-function assertUsableQuad(
-  quad,
-  label
+/**
+ * Whether a span quad (wall edges ordered start-to-end on both walls) is a
+ * non-degenerate, non-self-intersecting quadrilateral that can be warped.
+ *
+ * @param {object} quad - Span quad with first/second wall start/end points.
+ * @returns {boolean} True when the quad can be used as a span asset target.
+ */
+export function isUsableWebSpanQuad(
+  quad
 ) {
   const points =
     [
@@ -288,7 +294,7 @@ function assertUsableQuad(
       points[3]
     );
 
-  if (
+  return !(
     Math.abs(
       firstSignedArea
     ) <
@@ -300,7 +306,14 @@ function assertUsableQuad(
     firstSignedArea *
       secondSignedArea <=
       0
-  ) {
+  );
+}
+
+function assertUsableQuad(
+  quad,
+  label
+) {
+  if (!isUsableWebSpanQuad(quad)) {
     throw new Error(
       `${MODULE_TITLE} | ${label} quadrilateral is degenerate.`
     );
